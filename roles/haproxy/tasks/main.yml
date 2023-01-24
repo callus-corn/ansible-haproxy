@@ -1,0 +1,27 @@
+---
+
+- name: install haproxy
+  dnf:
+    name: haproxy
+    state: latest
+
+- name: put config
+  template:
+    src: haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart_haproxy
+
+- name: port open
+  firewalld:
+    zone: public
+    port: 80/tcp
+    permanent: yes
+    immediate: yes
+    state: enabled
+
+- name: disable SELinux
+  selinux:
+    state: disabled

@@ -1,0 +1,22 @@
+---
+
+- name: setup haproxy
+  hosts: haproxy
+  become: yes
+  tasks:
+
+    - name: dnf update
+      dnf:
+        name: "*"
+        state: latest
+      tags: dnf_update_all
+
+    - name: deploy haproxy
+      include_role:
+        name: haproxy
+      vars:
+        target: "{{ item }}"
+      loop: "{{ haproxy_list }}"
+      when:
+        - item.hostname == inventory_hostname
+      tags: deploy_haproxy

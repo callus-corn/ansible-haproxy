@@ -8,12 +8,15 @@
         timeout client 50000ms
         timeout server 50000ms
 
-    frontend http-in
+    frontend front
+        mode http
         bind *:80
+        bind *:443 ssl crt {{ haproxy_cert_dir }}/{{ target.fqdn }}.pem
+        http-request redirect scheme https code 301 unless { ssl_fc }
         default_backend servers
 
     backend servers
         balance roundrobin
 {% for server in target.backend_servers %}
-        server {{ server.hostname }} {{ server.ip }}:{{ server.port }} check
+        server {{ server.hostname }} {{ server.ip }}:{{ server.port }} check {% if ssl %}ssl verify required ca-file {{ haproxy_cert_dir }}/{{ haproxy_ca_cert }}{% endif %}
 {% endfor %}

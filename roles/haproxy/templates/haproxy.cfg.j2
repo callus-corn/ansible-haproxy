@@ -18,5 +18,5 @@
     backend servers
         balance roundrobin
 {% for server in target.backend_servers %}
-        server {{ server.hostname }} {{ server.ip }}:{{ server.port }} check {% if server.ssl %}ssl verify required ca-file {{ haproxy_cert_dir }}/{{ haproxy_ca_cert }}{% endif %}
+        server {{ server.hostname }} {{ server.ip }}:{{ server.port }} check {% if server.ssl %}ssl verify none{% endif %}
 {% endfor %}

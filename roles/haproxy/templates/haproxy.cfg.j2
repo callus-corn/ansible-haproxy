@@ -11,7 +11,7 @@
     frontend front
         mode http
         bind *:80
-        bind *:443 ssl crt {{ haproxy_cert_dir }}/{{ target.fqdn }}.pem
+        bind *:443 ssl crt {{ haproxy_cert_dir }}/{{ target.fqdn }}.pem alpn h2,http/1.1
         http-request redirect scheme https code 301 unless { ssl_fc }
         default_backend servers
 

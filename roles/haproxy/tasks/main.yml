@@ -79,3 +79,12 @@
 - name: disable SELinux
   selinux:
     state: disabled
+
+- name: force restart
+  debug:
+    msg: "force restart"
+  when:
+    - haproxy_force_restart is defined
+    - haproxy_force_restart
+  changed_when: true
+  notify: restart_haproxy

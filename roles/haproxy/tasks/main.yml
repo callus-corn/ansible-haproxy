@@ -8,14 +8,6 @@
     group: root
     mode: 0755
 
-- name: put ca cert
-  copy:
-    src: "{{ ansible_cert_src_dir }}/{{ ansible_ca }}/{{ ansible_ca }}.crt"
-    dest: "{{ haproxy_cert_dir }}/{{ haproxy_ca_cert }}"
-    owner: root
-    group: root
-    mode: 0444
-
 - name: put cert
   copy:
     src: "{{ ansible_cert_src_dir }}/{{ target.fqdn }}/{{ target.fqdn }}.crt"

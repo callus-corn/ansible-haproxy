@@ -16,6 +16,14 @@
     group: root
     mode: 0400
 
+- name: put ica cert
+  copy:
+    src: "{{ ansible_cert_src_dir }}/{{ ansible_ica_dir }}/{{ ansible_ica_crt_file }}"
+    dest: "{{ haproxy_cert_dir }}/{{ ica_crt_file }}"
+    owner: root
+    group: root
+    mode: 0400
+
 - name: put key
   copy:
     src: "{{ ansible_cert_src_dir }}/{{ target.fqdn }}/{{ target.fqdn }}.key"
@@ -28,6 +36,7 @@
   shell: >-
     cat 
     {{ haproxy_cert_dir }}/{{ target.fqdn }}.crt
+    {{ haproxy_cert_dir }}/{{ ica_crt_file }}
     {{ haproxy_cert_dir }}/{{ target.fqdn }}.key
     > {{ haproxy_cert_dir }}/{{ target.fqdn }}.pem
 

@@ -7,6 +7,7 @@
     owner: root
     group: root
     mode: 0755
+  when: target.ssl
 
 - name: put cert
   copy:
@@ -15,6 +16,7 @@
     owner: root
     group: root
     mode: 0400
+  when: target.ssl
 
 - name: put ica cert
   copy:
@@ -23,6 +25,7 @@
     owner: root
     group: root
     mode: 0400
+  when: target.ssl
 
 - name: put key
   copy:
@@ -31,6 +34,7 @@
     owner: root
     group: root
     mode: 0400
+  when: target.ssl
 
 - name: generate pem
   shell: >-
@@ -39,6 +43,7 @@
     {{ haproxy_cert_dir }}/{{ ansible_ica_crt_file }}
     {{ haproxy_cert_dir }}/{{ target.fqdn }}.key
     > {{ haproxy_cert_dir }}/{{ target.fqdn }}.pem
+  when: target.ssl
 
 - name: set pem permission
   file:
@@ -46,6 +51,7 @@
     owner: root
     group: root
     mode: 0400
+  when: target.ssl
 
 - name: install haproxy
   dnf:
@@ -76,6 +82,7 @@
     permanent: yes
     immediate: yes
     state: enabled
+  when: target.ssl
 
 - name: disable SELinux
   selinux:

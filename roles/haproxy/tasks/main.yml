@@ -70,7 +70,7 @@
 - name: 80 port open
   firewalld:
     zone: public
-    port: 80/tcp
+    port: "{{ target.port }}/tcp"
     permanent: yes
     immediate: yes
     state: enabled
